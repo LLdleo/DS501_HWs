@@ -28,7 +28,7 @@ def compute_D(A):
         Compute the degree matrix D. 
         Input:
             A:  the adjacency matrix, a float numpy matrix of shape n by n. Here n is the number of nodes in the network.
-                If there is a link between node i an node j, then A[i][j] = A[j][i] = 1. 
+                If there is a link between node i and node j, then A[i][j] = A[j][i] = 1. 
         Output:
             D:  the degree matrix, a numpy float matrix of shape n by n. 
                 All off-diagonal elements are 0. Each diagonal element represents the degree of the node (number of links). 
@@ -36,13 +36,10 @@ def compute_D(A):
     '''
     #########################################
     ## INSERT YOUR CODE HERE
-
     # degree vector of the nodes
-
-
+    d_v = np.sum(A, axis=0)
     # diagonal matrix
-
-
+    D = np.diag(d_v)
     #########################################
     return D
 
@@ -65,7 +62,7 @@ def compute_L(D,A):
 
     #########################################
     ## INSERT YOUR CODE HERE
-
+    L = D - A
     #########################################
     return L
 
@@ -92,12 +89,11 @@ def find_e2(L,tol= 1e-4):
 
     #########################################
     ## INSERT YOUR CODE HERE
-
-
-
-
-
-
+    Ep = p1.sort_eigen_pairs(p1.compute_eigen_pairs(L))
+    for row in Ep:
+        if row[0] >=tol:
+            e2 = row[1]
+            break
     #########################################
     return e2 
 
@@ -118,9 +114,7 @@ def compute_x(e2):
 
     #########################################
     ## INSERT YOUR CODE HERE
-
-
-
+    x = np.where(e2 >0, 1, 0)
     #########################################
     return x
 
@@ -150,17 +144,13 @@ def spectral_clustering(A):
     ## INSERT YOUR CODE HERE
 
     # compute degree matrix
-
-
+    D = compute_D(A)
     # compute laplacian matrix
-
-
+    L = compute_L(D, A)
     # find the eigen vector with the smallest non-zero eigen value
-
-
+    e2 = find_e2(L)
     # compute the graph partition
-
-
+    x = compute_x(e2)
     #########################################
     return x 
 

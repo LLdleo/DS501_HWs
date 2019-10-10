@@ -58,7 +58,7 @@ def compute_eigen_pairs(X):
     Ep = list()
     E_1, E_2 = np.linalg.eigh(X)
     for index in range(len(E_1)):
-        Ep.append(tuple([E_1[index], E_2[index]]))
+        Ep.append(tuple([E_1[index], E_2[:, index]]))
     #########################################
     return Ep
 
@@ -118,7 +118,6 @@ def sort_eigen_pairs(Ep, order = 'ascending'):
         Ep = list(reversed(Ep))
     else:
         Ep = 'N/A'
-    print(Ep)
     #########################################
     return Ep 
 

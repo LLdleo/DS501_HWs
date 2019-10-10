@@ -42,9 +42,13 @@ def compute_distance(Xp, q):
     '''
     #########################################
     ## INSERT YOUR CODE HERE
-
-
-
+    d = list()
+    for row in Xp:
+        square_sum = 0
+        for i in range(len(row)):
+            square_sum += pow((row[i]-q[i]),2)
+        d.append(pow(square_sum, 0.5))
+    d = np.array(d)
     #########################################
     return d
 
@@ -76,8 +80,10 @@ def face_recognition(Xp,q):
     '''
     #########################################
     ## INSERT YOUR CODE HERE
-
-
+    d = compute_distance(Xp, q)
+    ids = np.argsort(d)
+    ids = ids.astype(int)
+    print(ids.dtype)
     #########################################
     return ids
 

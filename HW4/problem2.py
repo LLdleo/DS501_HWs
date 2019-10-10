@@ -39,7 +39,6 @@ def centering_X(X):
 
     #########################################
     ## INSERT YOUR CODE HERE
-    n, p = X.shape
     mu = np.mean(X, axis=0)
     Xc = np.copy(X) - mu
     #########################################
@@ -115,7 +114,7 @@ def compute_Xp(Xc,P):
     '''
     #########################################
     ## INSERT YOUR CODE HERE
-    
+    Xp = np.dot(Xc, P)
     #########################################
     return Xp
 
@@ -139,19 +138,16 @@ def PCA(X, k=1):
 
     #########################################
     ## INSERT YOUR CODE HERE
-
-    # centering matrix X 
-
-
+    # centering matrix X
+    Xc, mu = centering_X(X)
     # compute covariance matrix C
-
-
+    C = compute_C(Xc)
     # compute the projection matrix P 
-
-
+    P = compute_P(C, k)
     # project the data into lower dimension using projection matrix P and centered data matrix X
-
-
+    Xp = compute_Xp(Xc, P)
+    print(Xp)
+    print(P)
     #########################################
     return Xp, P 
 
