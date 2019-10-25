@@ -8,16 +8,16 @@ import sys
     You could test the correctness of your code by typing `nosetests -v test1.py` in the terminal.
 '''
 
-#-------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 def test_terms_and_conditions():
-    ''' Read and Agree with Terms and Conditions'''
-    assert Terms_and_Conditions() # require reading and agreeing with Terms and Conditions. 
+    """ Read and Agree with Terms and Conditions"""
+    assert Terms_and_Conditions()  # require reading and agreeing with Terms and Conditions.
 
 
 #-------------------------------------------------------------------------
 def test_python_version():
-    ''' ----------- Problem 1 (45 points in total)---------------------'''
-    assert sys.version_info[0]==3 # require python 3 (instead of python 2)
+    """ ----------- Problem 1 (45 points in total)---------------------"""
+    assert sys.version_info[0] == 3  # require python 3 (instead of python 2)
 
 
 #-------------------------------------------------------------------------
@@ -136,7 +136,7 @@ def test_check_game():
     assert e == 0 # a tie
 
 
-#-------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 def test_random_play():
     '''(5 points) random play()'''
     p = PlayerRandom()
@@ -171,7 +171,7 @@ def test_random_play():
  
 
 
-#-------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 def test_expand():
     '''(5 points) expand'''
 
@@ -279,9 +279,9 @@ def test_expand():
 
 
 
-#-------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 def test_build_tree():
-    '''(5 points) build_tree'''
+    """(5 points) build_tree"""
 
     # current node (root node)
     s=np.array([[ 0, 1,-1],
@@ -503,7 +503,7 @@ def test_compute_v():
                 [ 0,-1, 1]])
     n = Node(s, x=-1)
     n.compute_v() 
-    assert  n.v== 1 # X player won the game
+    assert n.v == 1  # X player won the game
 
     # the value of a terminal node is its game result
     s=np.array([[ 1, 1,-1],

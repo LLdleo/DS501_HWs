@@ -474,30 +474,30 @@ class Node:
                              |--> Child Node C -->|
                                                   |--> Grand Child Node C2 |--> Great Grand Child C21
 
-       Each node of the tree represents a possible future game state.
-       Here are the detailed attribute values of tree nodes:
-       --------------------
-       |Current Node:
-       |    s=[[ 0, 1,-1],
-       |       [ 0,-1, 1],
-       |       [ 0, 1,-1]]
-       |    x= 1        -- it's "X" player's turn in this step of the game
-       |    p= None
-       |    m= None
-       |    c=[Child_A, Child_B, Child_C] -- Three children nodes are created and added here
-       |    v= None
-       |-------------------------------
-           |Child Node A:
-           |    s=[[ 1, 1,-1],
-           |       [ 0,-1, 1],
-           |       [ 0, 1,-1]]
-           |    x=-1               -- it's "O" player's turn in this step of the game
-           |    p= Current_Node    -- The parent node of this node is "Current_Node"
-           |    m= (0,0)           -- The move it takes to from parent node
-           |                           to this node is first row (0), first column (0)
-           |    c=[Grand_Child_A, Grand_Child_B] -- Two children nodes
-           |    v= None
-           |-------------------------------
+        Each node of the tree represents a possible future game state.
+        Here are the detailed attribute values of tree nodes:
+        --------------------
+        |Current Node:
+        |    s=[[ 0, 1,-1],
+        |       [ 0,-1, 1],
+        |       [ 0, 1,-1]]
+        |    x= 1        -- it's "X" player's turn in this step of the game
+        |    p= None
+        |    m= None
+        |    c=[Child_A, Child_B, Child_C] -- Three children nodes are created and added here
+        |    v= None
+        |-------------------------------
+            |Child Node A:
+            |    s=[[ 1, 1,-1],
+            |       [ 0,-1, 1],
+            |       [ 0, 1,-1]]
+            |    x=-1               -- it's "O" player's turn in this step of the game
+            |    p= Current_Node    -- The parent node of this node is "Current_Node"
+            |    m= (0,0)           -- The move it takes to from parent node
+            |                           to this node is first row (0), first column (0)
+            |    c=[Grand_Child_A, Grand_Child_B] -- Two children nodes
+            |    v= None
+            |-------------------------------
                 |Grand Child Node A1:
                 |    s=[[ 1, 1,-1],
                 |       [-1,-1, 1],
@@ -605,12 +605,15 @@ class Node:
         Hint: you could use recursion to build the tree and solve this problem using 5 lines of code.
         """
         #########################################
-        ## INSERT YOUR CODE HERE
-
+        # INSERT YOUR CODE HERE
+        m = get_valid_moves(self.s)
         # if the game in the current state has not ended yet, expand the current node by one-level of children nodes
-
+        if len(m) > 0:
+            self.expand()
+            print(self.c)
         # recursion: for each child node, call build_tree() function to build a subtree rooted from each child node
-
+            for child_node in self.c:
+                child_node.build_tree()
         #########################################
 
     ''' TEST: Now you can test the correctness of your code above by typing `nosetests -v test1.py:test_build_tree' in the terminal.  '''
@@ -761,15 +764,19 @@ class Node:
         '''
         #########################################
         ## INSERT YOUR CODE HERE
-        # (1) if the game has already ended, the value of the node is the game result 
-
+        # (1) if the game has already ended, the value of the node is the game result
+        m = get_valid_moves(self.s)
+        if len(m) == 0:
+            self.v = check_game(self.s)
+        else:
         # (2) if the game has not ended yet:
         #   (2.1)first compute values of all children nodes recursively by calling compute_v() in each child node
-
+            for child_node in self.c:
+                child_node.compute_v()
         #   (2.2) now the values of all the children nodes are computed, let's compute the value of the current node:
         #       (2.2.1) if it is X player's turn, the value of the current node is the max of all children node's values 
-        #       (2.2.2) if it is O player's turn, the value of the current node is the min of all children node's values 
-
+        #       (2.2.2) if it is O player's turn, the value of the current node is the min of all children node's values
+        
         #########################################
 
     ''' TEST: Now you can test the correctness of your code above by typing `nosetests -v test1.py:test_compute_v' in the terminal.  '''
