@@ -36,7 +36,7 @@ def test_sample():
     s=np.array([[ 0, 1, 1],
                 [-1,-1, 1],
                 [-1, 1,-1]])
-    n = MCNode(s,x=1) # X player's turn
+    n = MCNode(s,x=1)  # X player's turn
     for _ in range(100):
         e=sample(n)
         assert e==1
@@ -45,7 +45,7 @@ def test_sample():
     s=np.array([[ 0, 1, 0],
                 [-1,-1, 1],
                 [-1, 1, 1]])
-    n = MCNode(s,x=-1) # O player's turn
+    n = MCNode(s,x=-1)  # O player's turn
     for _ in range(100):
         e=sample(n)
         assert e==-1
@@ -71,7 +71,7 @@ def test_sample():
     n = MCNode(s,x=1)
     for _ in range(100):
         assert sample(n)==-1
-    
+
     s_=np.array([[-1, 0, 0],
                  [ 1,-1, 1],
                  [ 0, 1,-1]])
@@ -94,22 +94,22 @@ def test_sample():
     for _ in range(1000):
         e = sample(n)
         assert e==-1 or e==1 or e==0
-        v += e 
+        v += e
     assert np.abs(v-500) <100
 
-#-------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 def test_expand():
-    '''(5 points) expand'''
+    """(5 points) expand"""
 
     # Current Node (root)
     s=np.array([[0, 1,-1],
                 [0,-1, 1],
                 [0, 1,-1]])
-    n = MCNode(s,x=1) #it's X player's turn
+    n = MCNode(s,x=1)  # it's X player's turn
     # expand
     sc=expand(n)
     assert n.x==1
-    assert len(n.c) ==3 
+    assert len(n.c) ==3
 
     assert type(sc)==MCNode
     assert sc.p == n
@@ -123,7 +123,7 @@ def test_expand():
                  [0,-1, 1],
                  [0, 1,-1]])
     # the current game state should not change after expanding
-    assert np.allclose(n.s,s_) 
+    assert np.allclose(n.s,s_)
     for c in n.c:
         assert c.x==-1
         assert c.p==n
@@ -246,52 +246,52 @@ def test_expand():
 
 #-------------------------------------------------------------------------
 def test_backprop():
-    '''(5 points) backprop'''
+    """(5 points) backprop"""
     s=np.array([[ 0, 0, 0],
                 [-1, 1, 1],
                 [ 0, 0,-1]])
-    r = MCNode(s,x=1) # X player's turn 
+    r = MCNode(s, x=1)  # X player's turn
     expand(r) # expand the root node with one level of children nodes
     # simulation 1
-    c1 = r.c[1] # suppose the second child node is selected 
-    backprop(c1, e=1) # run a simulation on c, suppose the result is X player won
-    assert c1.v ==1 # won one game in the simulation
-    assert c1.N ==1 # number of simulations in the node 
-    assert r.v ==1 
-    assert r.N ==1
-
+    c1 = r.c[1]  # suppose the second child node is selected
+    backprop(c1, e=1)  # run a simulation on c, suppose the result is X player won
+    assert c1.v == 1  # won one game in the simulation
+    assert c1.N == 1  # number of simulations in the node
+    assert r.v == 1
+    assert r.N == 1
 
     # simulation 2
     c2 = r.c[2] # suppose the third child node is selected
     expand(c2) # expand the tree with one level of children nodes
     c2c0 = c2.c[0] # suppose the first grand child is selected
     backprop(c2c0,e=-1) # run a simulation, suppose the game result: O player won
-    assert c2c0.v ==-1 
+    assert c2c0.v ==-1
     assert c2c0.N ==1
-    assert c2.v ==-1 
+    assert c2.v ==-1
     assert c2.N ==1
-    assert r.v ==0 
+    assert r.v ==0
     assert r.N ==2
     assert c1.v ==1
     assert c1.N ==1
-    c2c1 = c2.c[1] 
-    assert c2c1.v ==0 
+    c2c1 = c2.c[1]
+    assert c2c1.v ==0
     assert c2c1.N ==0
 
 
     # simulation 3
     c2c1 = c2.c[1] # suppose the second child is selected
     backprop(c2c1,e=0) # run a simulation: a tie in the game
-    assert c2c1.v ==0 
+    assert c2c1.v ==0
     assert c2c1.N ==1
-    assert c2.v ==-1 
+    assert c2.v ==-1
     assert c2.N ==2
-    assert r.v ==0 
+    print(r.v, r.N)
+    assert r.v ==0
     assert r.N ==3
-    assert c2c0.v ==-1 
+    assert c2c0.v ==-1
     assert c2c0.N ==1
     assert c1.v ==1 # won one game in the simulation
-    assert c1.N ==1 # number of simulations in the node 
+    assert c1.N ==1 # number of simulations in the node
 
 
 #-------------------------------------------------------------------------
@@ -339,26 +339,26 @@ def test_compute_UCB():
 
 #-------------------------------------------------------------------------
 def test_select_a_child():
-    '''(5 points) select_a_child'''
+    """(5 points) select_a_child"""
 
     # A parent node with two children nodes 
     s=np.array([[ 1, 1,-1],
                 [ 0,-1,-1],
                 [ 0, 1, 1]])
-    p = MCNode(s,x=-1) # O player's turn
-    expand(p) # expand the root node with one level of children nodes
-    c1,c2=p.c
+    p = MCNode(s, x=-1)  # O player's turn
+    expand(p)  # expand the root node with one level of children nodes
+    c1, c2 = p.c
 
     # set the node statistics (this is only used for testing, in the real game, the statistics will be different from these numbers)
-    p.v=-6
-    p.N=12
-    c1.v=-1
-    c1.N=2
-    c2.v=-5
-    c2.N=10
+    p.v = -6
+    p.N = 12
+    c1.v = -1
+    c1.N = 2
+    c2.v = -5
+    c2.N = 10
     # select the child node with the highest UCB score
     c = select_a_child(p)
-    assert c ==c1
+    assert c == c1
 
     #----------------------
     p.v=-10
@@ -369,7 +369,7 @@ def test_select_a_child():
     c2.N=10
     # select the child node with the highest UCB score
     c = select_a_child(p)
-    assert c ==c1 # a tie in UCB score, use index as tie-breaker
+    assert c == c1  # a tie in UCB score, use index as tie-breaker
 
     #----------------------
     p.v=-6
@@ -380,31 +380,31 @@ def test_select_a_child():
     c2.N=10
     # select the child node with the highest UCB score
     c = select_a_child(p)
-    assert c ==c2 
+    assert c == c2
 
     #----------------------
     # A parent node with three children nodes 
     s=np.array([[ 0,-1,-1],
                 [ 0, 1, 1],
                 [ 0,-1, 1]])
-    p = MCNode(s, x=1) # X player's turn
-    expand(p) # expand the root node with one level of children nodes
-    c1,c2,c3=p.c
+    p = MCNode(s, x=1)  # X player's turn
+    expand(p)  # expand the root node with one level of children nodes
+    c1, c2, c3 = p.c
 
-    p.v=1
-    p.N=1
-    c1.v=1
-    c1.N=1
+    p.v = 1
+    p.N = 1
+    c1.v = 1
+    c1.N = 1
     c = select_a_child(p)
-    assert c ==c2
+    assert c == c2
 
-    #----------------------
-    p.v=2
-    p.N=2
-    c2.v=1
-    c2.N=1
+    # ----------------------
+    p.v = 2
+    p.N = 2
+    c2.v = 1
+    c2.N = 1
     c = select_a_child(p)
-    assert c ==c3
+    assert c == c3
 
     #----------------------
     p.v=1
@@ -441,18 +441,18 @@ def test_selection():
                 [ 0,-1,-1],
                 [ 0, 1, 1]])
     p = MCNode(s,x=-1) # O player's turn
-    expand(p) # expand the root node with one level of children nodes
-    c1,c2=p.c
+    expand(p)  # expand the root node with one level of children nodes
+    c1, c2 = p.c
 
-    p.v=-6
-    p.N=12
-    c1.v=-1
-    c1.N=2
-    c2.v=-5
-    c2.N=10
+    p.v = -6
+    p.N = 12
+    c1.v = -1
+    c1.N = 2
+    c2.v = -5
+    c2.N = 10
 
     c = selection(p)
-    assert c ==c1
+    assert c == c1
 
 
     p.v=-10
@@ -463,7 +463,7 @@ def test_selection():
     c2.N=10
     # select the child node with the highest UCB score
     c = selection(p)
-    assert c ==c1 # a tie in UCB score, use index as tie-breaker
+    assert c ==c1  # a tie in UCB score, use index as tie-breaker
 
     # A parent node with three children nodes 
     s=np.array([[ 0,-1,-1],
@@ -519,8 +519,8 @@ def test_selection():
         c.N=1
         expand(c) # expand the second level children nodes
 
-    for j in range(4): 
-        for i in range(5): 
+    for j in range(4):
+        for i in range(5):
             l = selection(p)
             assert l==p.c[i].c[j]
             p.c[i].c[j].N=1
@@ -531,12 +531,12 @@ def test_selection():
     p.c[1].c[2].v=-1
     l = selection(p)
     assert l == p.c[1].c[2]
-    
+
 
 #-------------------------------------------------------------------------
 def test_build_tree():
-    '''(5 points) build_tree'''
-    #--------------------------
+    """(5 points) build_tree"""
+    # --------------------------
     s=np.array([[ 0, 1, 1],
                 [-1, 1,-1],
                 [ 0,-1, 1]])
@@ -544,7 +544,7 @@ def test_build_tree():
     n = MCNode(s,x=-1) # O player's turn
     # run one iteration 
     build_tree(n,1)
-    assert len(n.c)==2 
+    assert len(n.c)==2
     assert n.N == 1
     assert n.v == 1
 
@@ -553,7 +553,7 @@ def test_build_tree():
         assert c.p==n
         assert c.c==[]
 
-    c = 0 
+    c = 0
     for x in n.c:
         if x.N>0:
             c+=1
@@ -563,7 +563,7 @@ def test_build_tree():
 
     # run another iteration 
     build_tree(n,1)
-    assert len(n.c)==2 
+    assert len(n.c)==2
     assert n.N == 2
     assert n.v == 2
 
@@ -571,7 +571,7 @@ def test_build_tree():
         assert c.x==1
         assert c.p==n
 
-    c = 0 
+    c = 0
     for x in n.c:
         assert x.v==1
         assert x.N==1
@@ -596,7 +596,7 @@ def test_build_tree():
         c=x.c[0]
         assert c.x==-1
         assert c.p==x
-        assert c.N==c.v 
+        assert c.N==c.v
         assert c.N==1 or c.N==2
         if c.N==2:
             count+=1
@@ -623,10 +623,10 @@ def test_build_tree():
             assert x.N > 900
             assert np.abs(x.v) < 50
             c1=x
-   
+
     s2=np.array([[-1, 1, 1],
                  [ 0,-1, 0],
-                 [ 0, 0, 1]]) 
+                 [ 0, 0, 1]])
     for x in c1.c:
         if np.allclose(x.s,s2):
             assert x.x ==-1
@@ -637,7 +637,7 @@ def test_build_tree():
 
     s3=np.array([[-1, 1, 1],
                  [ 0,-1,-1],
-                 [ 0, 0, 1]]) 
+                 [ 0, 0, 1]])
     for x in c2.c:
         if np.allclose(x.s,s3):
             assert x.x == 1
@@ -648,7 +648,7 @@ def test_build_tree():
 
     s4=np.array([[-1, 1, 1],
                  [ 1,-1,-1],
-                 [ 0, 0, 1]]) 
+                 [ 0, 0, 1]])
     for x in c3.c:
         if np.allclose(x.s,s4):
             assert x.x == -1
@@ -659,8 +659,8 @@ def test_build_tree():
 
 #-------------------------------------------------------------------------
 def test_choose_optimal_move():
-    '''(5 points) choose_optimal_move()'''
-    #-------------------------
+    """(5 points) choose_optimal_move()"""
+    # -------------------------
     s=np.array([[ 1,-1, 1],
                 [ 0, 0,-1],
                 [ 0, 1,-1]])
@@ -698,7 +698,7 @@ def test_MCTS_play():
     s=np.array([[ 0,-1,-1],
                 [ 0, 1, 0],
                 [ 0, 0, 0]])
-     
+
     r,c=p.play(s)
     assert r ==0
     assert c ==0
@@ -706,7 +706,7 @@ def test_MCTS_play():
     s=np.array([[ 0, 0,-1],
                 [ 0, 1,-1],
                 [ 0, 0, 0]])
-     
+
     r,c=p.play(s)
     assert r ==2
     assert c ==2
@@ -715,7 +715,7 @@ def test_MCTS_play():
     s=np.array([[ 0, 0, 1],
                 [ 0,-1, 1],
                 [ 0, 0, 0]])
-     
+
     r,c=p.play(s,x=-1)
     assert r ==2
     assert c ==2

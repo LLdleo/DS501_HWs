@@ -149,7 +149,7 @@ def test_random_play():
                  [ 1, 1, 0]])
     count=np.zeros(3)
     for _ in range(100):
-        r,c = p.play(s)
+        r, c = p.play(s)
         assert s[r,c]==0 # player needs to choose a valid move 
         assert r==c # in this example the valid moves are on the diagonal of the matrix
         assert r>-1 and r<3
@@ -492,15 +492,14 @@ def test_build_tree():
             assert c.c == [] #terminal node, no child
 
 
-
-#-------------------------------------------------------------------------
+# -------------------------------------------------------------------------
 def test_compute_v():
-    '''(5 points) compute_v()'''
-    #-------------------------
+    """(5 points) compute_v()"""
+    # -------------------------
     # the value of a terminal node is its game result
-    s=np.array([[ 1, 0, 0],
-                [ 0, 1,-1],
-                [ 0,-1, 1]])
+    s = np.array([[1, 0, 0],
+                  [0, 1,-1],
+                  [0,-1, 1]])
     n = Node(s, x=-1)
     n.compute_v() 
     assert n.v == 1  # X player won the game
@@ -790,11 +789,11 @@ def test_minmax_play():
                   [ 0, 1, 0],
                   [-1, 0, 0]])
     e = g.game(p1,p1)
-    assert e==0
+    assert e == 0
 
-    ##the following test run a complete game, but it may take one minute to run
-    ## uncomment the following test to try a complete game
-    #g = TicTacToe()
-    #e = g.game(p1,p1)
-    #assert e==0
+    # the following test run a complete game, but it may take one minute to run
+    # uncomment the following test to try a complete game
+    # g = TicTacToe()
+    # e = g.game(p1,p1)
+    # assert e==0
 

@@ -35,14 +35,14 @@ def Terms_and_Conditions():
 
 # ----------------------------------------------
 def get_valid_moves(s):
-    '''
-       Get a list of available (valid) next moves from a game state of TicTacToe 
+    """
+       Get a list of available (valid) next moves from a game state of TicTacToe
         Input:
-            s: the current state of the game, an integer matrix of shape 3 by 3. 
+            s: the current state of the game, an integer matrix of shape 3 by 3.
                 s[i,j] = 0 denotes that the i-th row and j-th column is empty
-                s[i,j] = 1 denotes that the i-th row and j-th column is taken by "X". 
+                s[i,j] = 1 denotes that the i-th row and j-th column is taken by "X".
                 s[i,j] = -1 denotes that the i-th row and j-th column is taken by the "O".
-                For example, the following game state 
+                For example, the following game state
                  | X |   | O |
                  | O | X |   |
                  | X |   | O |
@@ -51,20 +51,20 @@ def get_valid_moves(s):
                     [-1 , 1 , 0 ],
                     [ 1 , 0 ,-1 ]]
         Outputs:
-            m: a list of possible next moves, where each next move is a (r,c) tuple, 
-               r denotes the row number, c denotes the column number. 
-        For example, for the following game state, 
+            m: a list of possible next moves, where each next move is a (r,c) tuple,
+               r denotes the row number, c denotes the column number.
+        For example, for the following game state,
                 s= [[ 1 , 0 ,-1 ],
                     [-1 , 1 , 0 ],
                     [ 1 , 0 ,-1 ]]
-        the valid moves are the empty grid cells: 
-            (r=0,c=1) --- the first row, second column 
-            (r=1,c=2) --- the second row, the third column 
+        the valid moves are the empty grid cells:
+            (r=0,c=1) --- the first row, second column
+            (r=1,c=2) --- the second row, the third column
             (r=2,c=1) --- the third row , the second column
         So the list of valid moves is m = [(0,1),(1,2),(2,1)]
         Hint: you could use np.where() function to find the indices of the elements in an array, where a test condition is true.
         Hint: you could solve this problem using 2 lines of code.
-    '''
+    """
     #########################################
     ## INSERT YOUR CODE HERE
     n = np.array(np.where(s == 0)).T
@@ -77,15 +77,15 @@ def get_valid_moves(s):
 
 # ----------------------------------------------
 def check_game(s):
-    '''
-        check if the TicTacToe game has ended or not. 
+    """
+        check if the TicTacToe game has ended or not.
         If yes (game ended), return the game result (1: x_player win, -1: o_player win, 0: draw)
-        If no (game not ended yet), return None 
-        
+        If no (game not ended yet), return None
+
         Input:
-            s: the current state of the game, an integer matrix of shape 3 by 3. 
+            s: the current state of the game, an integer matrix of shape 3 by 3.
                 s[i,j] = 0 denotes that the i-th row and j-th column is empty
-                s[i,j] = 1 denotes that the i-th row and j-th column is taken by "X" player. 
+                s[i,j] = 1 denotes that the i-th row and j-th column is taken by "X" player.
                 s[i,j] = -1 denotes that the i-th row and j-th column is taken by "O" player.
         Outputs:
             e: the result, an integer scalar with value 0, 1 or -1.
@@ -93,9 +93,9 @@ def check_game(s):
                 if e = 0, the game ended with a draw.
                 if e = 1, X player won the game.
                 if e = -1, O player won the game.
-    '''
+    """
     #########################################
-    ## INSERT YOUR CODE HERE
+    # INSERT YOUR CODE HERE
     e = None
     line_list = [[[0, 0], [0, 1], [0, 2]], [[0, 0], [1, 0], [2, 0]], [[0, 0], [1, 1], [2, 2]], [[1, 0], [1, 1], [1, 2]],
                  [[2, 0], [2, 1], [2, 2]], [[0, 1], [1, 1], [2, 1]], [[0, 2], [1, 2], [2, 2]], [[0, 2], [1, 1], [2, 0]]]
@@ -105,23 +105,18 @@ def check_game(s):
         if line_content[0] == line_content[1] and line_content[1] == line_content[2]:
             if line_content[0] == 1:
                 e = 1
-                print(line_content)
                 break
             elif line_content[0] == -1:
                 e = -1
-                print(line_content)
                 break
     # if the game has ended, return the game result 
-    if e:
-        pass
-    else:
+    if not e:
         a = np.where(s == 0)
-        if list(a[0]) != []:
+        if list(a[0]):
             e = None
         else:
             e = 0
     # if the game has not ended, return None
-    print('e', e)
     #########################################
     return e
 
@@ -137,28 +132,28 @@ def check_game(s):
 
 # -------------------------------------------------------
 class TicTacToe:
-    '''
-        TicTacToe game engine: the goal is to provide a platform for two AI players to play the game in turns and return the game result. 
-    '''
+    """
+        TicTacToe game engine: the goal is to provide a platform for two AI players to play the game in turns and return the game result.
+    """
 
     # ----------------------------------------------
     def __init__(self):
-        ''' Initialize the game state as all zeros (all empty board).  '''
+        """ Initialize the game state as all zeros (all empty board).  """
         self.s = np.zeros((3, 3))
 
     # ----------------------------------------------
     def game(self, x, o):
-        '''
-            run a tie-tac-toe game, letting X and O players to play in turns.  Here we assumes X player moves first in a game.  
+        """
+            run a tie-tac-toe game, letting X and O players to play in turns.  Here we assumes X player moves first in a game.
             Input:
-                x: the "X" player (the first mover) 
+                x: the "X" player (the first mover)
                 o: the "O" player (the second mover)
             Outputs:
                 e: the result of the game, an integer scalar with value 0, 1 or -1.
                     if e = 0, the game ends with a draw/tie.
                     if e = 1, X player won the game.
                     if e = -1, O player won the game.
-        '''
+        """
         # repeat until the end of the game
         for _ in range(5):
             e = check_game(self.s)  # check if the game has ended already
@@ -325,20 +320,20 @@ Then we can connect the nodes into a search tree.
 
 
 class Node:
-    '''
+    """
         Search Tree Node.
 
-        List of Attributes: 
-            s: the current state of the game, an integer matrix of shape 3 by 3. 
+        List of Attributes:
+            s: the current state of the game, an integer matrix of shape 3 by 3.
                 s[i,j] = 0 denotes that the i-th row and j-th column is empty
-                s[i,j] = 1 denotes that the i-th row and j-th column is taken by "X". 
+                s[i,j] = 1 denotes that the i-th row and j-th column is taken by "X".
                 s[i,j] = -1 denotes that the i-th row and j-th column is taken by the "O".
             x: who's turn in this step of the game (if X player: x=1, or if O player: x=-1)
-            p: the parent node of this node 
-            m: the move that it takes from the parent node to reach this node.  m is a tuple (r,c), r:row of move, c:column of the move 
-            c: a python list of all the children nodes of this node 
+            p: the parent node of this node
+            m: the move that it takes from the parent node to reach this node.  m is a tuple (r,c), r:row of move, c:column of the move
+            c: a python list of all the children nodes of this node
             v: the value of the node (-1, 0, or 1). We assume both players are choosing optimal moves, then this value v represents the best score that "X" player can achieve (1: win, 0:tie, -1: loss)
-    '''
+    """
 
     def __init__(self, s, x=1, p=None, c=None, m=None, v=None):
         self.s = s  # the current state of the game
@@ -427,7 +422,6 @@ class Node:
         """
         #########################################
         # INSERT YOUR CODE HERE
-
         # get the list of valid next moves from the current game state
         next_moves = get_valid_moves(self.s)
         # expand the node with one level of children nodes
@@ -606,11 +600,9 @@ class Node:
         """
         #########################################
         # INSERT YOUR CODE HERE
-        m = get_valid_moves(self.s)
         # if the game in the current state has not ended yet, expand the current node by one-level of children nodes
-        if len(m) > 0:
+        if not check_game(self.s):
             self.expand()
-            print(self.c)
         # recursion: for each child node, call build_tree() function to build a subtree rooted from each child node
             for child_node in self.c:
                 child_node.build_tree()
@@ -620,14 +612,14 @@ class Node:
 
     # ----------------------------------------------
     def compute_v(self):
-        '''
+        """
             Given a fully-built tree, compute optimal values of the all the nodes in the tree using minimax algorithm
             Here we assume that the whole search-tree is fully grown, but no value on any node has been computed yet before calling this function.
-           
-            MinMax Algorithm: 
+
+            MinMax Algorithm:
             The optimal value of a tree node is defined as follows:
             (1) if the node is a terminal node, the value of the node is the game result (1, -1 or 0)
-            (2) if the node is has children nodes, 
+            (2) if the node is has children nodes,
                     (2.1) if it is X player's turn in the current node:
                             the value of the node is maximum value of all the children nodes' values.
                     (2.2) if it is O player's turn in the current node:
@@ -635,148 +627,154 @@ class Node:
 
             For example, the current game state is
             |-------------------
-            |Current Node:   
+            |Current Node:
             |    s=[[ 1,-1, 1],
             |       [ 0, 0, 0],
             |       [ 0, 0,-1]]     -- the game state in the node
             |    x= 1               -- it's "X" player's turn in this step of the game
-            |    p= None           
-            |    m= None            
+            |    p= None
+            |    m= None
             |    c=[] -- list of children nodes
-            |    v= None               
+            |    v= None
             |-------------------
-            
+
             The search tree will have 5 levels of children nodes.
             The first two levels of the tree looks like this:
 
-                                |--> Child Node A -->|--> Grand Child Node A1 
-                                |     1,-1, 1        |--> Grand Child Node A2 
+                                |--> Child Node A -->|--> Grand Child Node A1
+                                |     1,-1, 1        |--> Grand Child Node A2
                                 |     1, 0, 0        |--> Grand Child Node A3
-                                |     0, 0,-1        |--> Grand Child Node A4 
+                                |     0, 0,-1        |--> Grand Child Node A4
                                 |
-                                |--> Child Node B -->|--> Grand Child Node B1 
-                                |     1,-1, 1        |--> Grand Child Node B2 
-                                |     0, 1, 0        |--> Grand Child Node B3 
-                                |     0, 0,-1        |--> Grand Child Node B4 
+                                |--> Child Node B -->|--> Grand Child Node B1
+                                |     1,-1, 1        |--> Grand Child Node B2
+                                |     0, 1, 0        |--> Grand Child Node B3
+                                |     0, 0,-1        |--> Grand Child Node B4
                                 |
-              Current Node -->  |--> Child Node C -->|--> Grand Child Node C1 
-               1,-1, 1          |     1,-1, 1        |--> Grand Child Node C2 
-               0, 0, 0          |     0, 0, 1        |--> Grand Child Node C3 
-               0, 0,-1          |     0, 0,-1        |--> Grand Child Node C4 
+              Current Node -->  |--> Child Node C -->|--> Grand Child Node C1
+               1,-1, 1          |     1,-1, 1        |--> Grand Child Node C2
+               0, 0, 0          |     0, 0, 1        |--> Grand Child Node C3
+               0, 0,-1          |     0, 0,-1        |--> Grand Child Node C4
                                 |
-                                |--> Child Node D -->|--> Grand Child Node D1 
-                                |     1,-1, 1        |--> Grand Child Node D2 
-                                |     0, 0, 0        |--> Grand Child Node D3  
-                                |     1, 0,-1        |--> Grand Child Node D4 
+                                |--> Child Node D -->|--> Grand Child Node D1
+                                |     1,-1, 1        |--> Grand Child Node D2
+                                |     0, 0, 0        |--> Grand Child Node D3
+                                |     1, 0,-1        |--> Grand Child Node D4
                                 |
-                                |--> Child Node E -->|--> Grand Child Node E1 
-                                      1,-1, 1        |--> Grand Child Node E2 
-                                      0, 0, 0        |--> Grand Child Node E3  
-                                      0, 1,-1        |--> Grand Child Node E4 
+                                |--> Child Node E -->|--> Grand Child Node E1
+                                      1,-1, 1        |--> Grand Child Node E2
+                                      0, 0, 0        |--> Grand Child Node E3
+                                      0, 1,-1        |--> Grand Child Node E4
 
-            If we finish computing the values of all the Grand Children nodes, we have: 
-            
-                                     (O's turn)             
-                                |--> Child Node A -->|--> Grand Child Node A1 (v=1) 
-                                |     1,-1, 1        |--> Grand Child Node A2 (v=1) 
-                                |     1, 0, 0        |--> Grand Child Node A3 (v=0) 
-                                |     0, 0,-1        |--> Grand Child Node A4 (v=1) 
+            If we finish computing the values of all the Grand Children nodes, we have:
+
+                                     (O's turn)
+                                |--> Child Node A -->|--> Grand Child Node A1 (v=1)
+                                |     1,-1, 1        |--> Grand Child Node A2 (v=1)
+                                |     1, 0, 0        |--> Grand Child Node A3 (v=0)
+                                |     0, 0,-1        |--> Grand Child Node A4 (v=1)
                                 |
-                                |--> Child Node B -->|--> Grand Child Node B1 (v=1) 
-                                |     1,-1, 1        |--> Grand Child Node B2 (v=1) 
-                                |     0, 1, 0        |--> Grand Child Node B3 (v=0) 
-                                |     0, 0,-1        |--> Grand Child Node B4 (v=1) 
+                                |--> Child Node B -->|--> Grand Child Node B1 (v=1)
+                                |     1,-1, 1        |--> Grand Child Node B2 (v=1)
+                                |     0, 1, 0        |--> Grand Child Node B3 (v=0)
+                                |     0, 0,-1        |--> Grand Child Node B4 (v=1)
                (X's turn)       |
-              Current Node -->  |--> Child Node C -->|--> Grand Child Node C1 (v=0) 
-               1,-1, 1          |     1,-1, 1        |--> Grand Child Node C2 (v=0) 
-               0, 0, 0          |     0, 0, 1        |--> Grand Child Node C3 (v=0) 
-               0, 0,-1          |     0, 0,-1        |--> Grand Child Node C4 (v=-1) 
+              Current Node -->  |--> Child Node C -->|--> Grand Child Node C1 (v=0)
+               1,-1, 1          |     1,-1, 1        |--> Grand Child Node C2 (v=0)
+               0, 0, 0          |     0, 0, 1        |--> Grand Child Node C3 (v=0)
+               0, 0,-1          |     0, 0,-1        |--> Grand Child Node C4 (v=-1)
                                 |
-                                |--> Child Node D -->|--> Grand Child Node D1 (v=1) 
-                                |     1,-1, 1        |--> Grand Child Node D2 (v=1) 
-                                |     0, 0, 0        |--> Grand Child Node D3 (v=1)  
-                                |     1, 0,-1        |--> Grand Child Node D4 (v=1) 
+                                |--> Child Node D -->|--> Grand Child Node D1 (v=1)
+                                |     1,-1, 1        |--> Grand Child Node D2 (v=1)
+                                |     0, 0, 0        |--> Grand Child Node D3 (v=1)
+                                |     1, 0,-1        |--> Grand Child Node D4 (v=1)
                                 |
-                                |--> Child Node E -->|--> Grand Child Node E1 (v=0) 
-                                      1,-1, 1        |--> Grand Child Node E2 (v=0) 
-                                      0, 0, 0        |--> Grand Child Node E3 (v=1)  
-                                      0, 1,-1        |--> Grand Child Node E4 (v=0) 
+                                |--> Child Node E -->|--> Grand Child Node E1 (v=0)
+                                      1,-1, 1        |--> Grand Child Node E2 (v=0)
+                                      0, 0, 0        |--> Grand Child Node E3 (v=1)
+                                      0, 1,-1        |--> Grand Child Node E4 (v=0)
 
             In Child Node A, it is "O" player's turn, so the value of Child Node A is the MINIMUM of all its children nodes' values: min(1,1,0,1) = 0
             Similarly, we can compute all the children nodes' (A,B,C,D).
 
-                                     (O's turn)             
-                                |--> Child Node A -->|--> Grand Child Node A1 (v=1) 
-                                |     1,-1, 1 (v=0)  |--> Grand Child Node A2 (v=1) 
-                                |     1, 0, 0        |--> Grand Child Node A3 (v=0) 
-                                |     0, 0,-1        |--> Grand Child Node A4 (v=1) 
+                                     (O's turn)
+                                |--> Child Node A -->|--> Grand Child Node A1 (v=1)
+                                |     1,-1, 1 (v=0)  |--> Grand Child Node A2 (v=1)
+                                |     1, 0, 0        |--> Grand Child Node A3 (v=0)
+                                |     0, 0,-1        |--> Grand Child Node A4 (v=1)
                                 |
-                                |--> Child Node B -->|--> Grand Child Node B1 (v=1) 
-                                |     1,-1, 1 (v=0)  |--> Grand Child Node B2 (v=1) 
-                                |     0, 1, 0        |--> Grand Child Node B3 (v=0) 
-                                |     0, 0,-1        |--> Grand Child Node B4 (v=1) 
+                                |--> Child Node B -->|--> Grand Child Node B1 (v=1)
+                                |     1,-1, 1 (v=0)  |--> Grand Child Node B2 (v=1)
+                                |     0, 1, 0        |--> Grand Child Node B3 (v=0)
+                                |     0, 0,-1        |--> Grand Child Node B4 (v=1)
                (X's turn)       |
-              Current Node -->  |--> Child Node C -->|--> Grand Child Node C1 (v=0) 
-               1,-1, 1          |     1,-1, 1 (v=-1) |--> Grand Child Node C2 (v=0) 
-               0, 0, 0          |     0, 0, 1        |--> Grand Child Node C3 (v=0) 
-               0, 0,-1          |     0, 0,-1        |--> Grand Child Node C4 (v=-1) 
+              Current Node -->  |--> Child Node C -->|--> Grand Child Node C1 (v=0)
+               1,-1, 1          |     1,-1, 1 (v=-1) |--> Grand Child Node C2 (v=0)
+               0, 0, 0          |     0, 0, 1        |--> Grand Child Node C3 (v=0)
+               0, 0,-1          |     0, 0,-1        |--> Grand Child Node C4 (v=-1)
                                 |
-                                |--> Child Node D -->|--> Grand Child Node D1 (v=1) 
-                                |     1,-1, 1 (v=1)  |--> Grand Child Node D2 (v=1) 
-                                |     0, 0, 0        |--> Grand Child Node D3 (v=1)  
-                                |     1, 0,-1        |--> Grand Child Node D4 (v=1) 
+                                |--> Child Node D -->|--> Grand Child Node D1 (v=1)
+                                |     1,-1, 1 (v=1)  |--> Grand Child Node D2 (v=1)
+                                |     0, 0, 0        |--> Grand Child Node D3 (v=1)
+                                |     1, 0,-1        |--> Grand Child Node D4 (v=1)
                                 |
-                                |--> Child Node E -->|--> Grand Child Node E1 (v=0) 
-                                      1,-1, 1 (v=1)  |--> Grand Child Node E2 (v=0) 
-                                      0, 0, 0        |--> Grand Child Node E3 (v=1)  
-                                      0, 1,-1        |--> Grand Child Node E4 (v=0) 
+                                |--> Child Node E -->|--> Grand Child Node E1 (v=0)
+                                      1,-1, 1 (v=1)  |--> Grand Child Node E2 (v=0)
+                                      0, 0, 0        |--> Grand Child Node E3 (v=1)
+                                      0, 1,-1        |--> Grand Child Node E4 (v=0)
 
             Now the values of all the children nodes of the current node are ready, we can compute the value of the current node.
             In the current node, it is "X" player's turn, so the value of the current node is the MAXIMUM of all its children nodes' values: max(0,0,-1,1,0) = 1
 
-                                     (O's turn)             
-                                |--> Child Node A -->|--> Grand Child Node A1 (v=1) 
-                                |     1,-1, 1 (v=0)  |--> Grand Child Node A2 (v=1) 
-                                |     1, 0, 0        |--> Grand Child Node A3 (v=0) 
-                                |     0, 0,-1        |--> Grand Child Node A4 (v=1) 
+                                     (O's turn)
+                                |--> Child Node A -->|--> Grand Child Node A1 (v=1)
+                                |     1,-1, 1 (v=0)  |--> Grand Child Node A2 (v=1)
+                                |     1, 0, 0        |--> Grand Child Node A3 (v=0)
+                                |     0, 0,-1        |--> Grand Child Node A4 (v=1)
                                 |
-                                |--> Child Node B -->|--> Grand Child Node B1 (v=1) 
-                                |     1,-1, 1 (v=0)  |--> Grand Child Node B2 (v=1) 
-                                |     0, 1, 0        |--> Grand Child Node B3 (v=0) 
-                                |     0, 0,-1        |--> Grand Child Node B4 (v=1) 
+                                |--> Child Node B -->|--> Grand Child Node B1 (v=1)
+                                |     1,-1, 1 (v=0)  |--> Grand Child Node B2 (v=1)
+                                |     0, 1, 0        |--> Grand Child Node B3 (v=0)
+                                |     0, 0,-1        |--> Grand Child Node B4 (v=1)
                (X's turn)       |
-              Current Node -->  |--> Child Node C -->|--> Grand Child Node C1 (v=0) 
-               1,-1, 1 (v=1)    |     1,-1, 1 (v=-1) |--> Grand Child Node C2 (v=0) 
-               0, 0, 0          |     0, 0, 1        |--> Grand Child Node C3 (v=0) 
-               0, 0,-1          |     0, 0,-1        |--> Grand Child Node C4 (v=-1) 
+              Current Node -->  |--> Child Node C -->|--> Grand Child Node C1 (v=0)
+               1,-1, 1 (v=1)    |     1,-1, 1 (v=-1) |--> Grand Child Node C2 (v=0)
+               0, 0, 0          |     0, 0, 1        |--> Grand Child Node C3 (v=0)
+               0, 0,-1          |     0, 0,-1        |--> Grand Child Node C4 (v=-1)
                                 |
-                                |--> Child Node D -->|--> Grand Child Node D1 (v=1) 
-                                |     1,-1, 1 (v=1)  |--> Grand Child Node D2 (v=1) 
-                                |     0, 0, 0        |--> Grand Child Node D3 (v=1)  
-                                |     1, 0,-1        |--> Grand Child Node D4 (v=1) 
+                                |--> Child Node D -->|--> Grand Child Node D1 (v=1)
+                                |     1,-1, 1 (v=1)  |--> Grand Child Node D2 (v=1)
+                                |     0, 0, 0        |--> Grand Child Node D3 (v=1)
+                                |     1, 0,-1        |--> Grand Child Node D4 (v=1)
                                 |
-                                |--> Child Node E -->|--> Grand Child Node E1 (v=0) 
-                                      1,-1, 1 (v=0)  |--> Grand Child Node E2 (v=0) 
-                                      0, 0, 0        |--> Grand Child Node E3 (v=1)  
-                                      0, 1,-1        |--> Grand Child Node E4 (v=0) 
-            Hint: you could use recursion to compute the values of the current node recursively. 
+                                |--> Child Node E -->|--> Grand Child Node E1 (v=0)
+                                      1,-1, 1 (v=0)  |--> Grand Child Node E2 (v=0)
+                                      0, 0, 0        |--> Grand Child Node E3 (v=1)
+                                      0, 1,-1        |--> Grand Child Node E4 (v=0)
+            Hint: you could use recursion to compute the values of the current node recursively.
                   you could use 12 lines of code to solve this problem.
-        '''
+        """
         #########################################
-        ## INSERT YOUR CODE HERE
+        # INSERT YOUR CODE HERE
         # (1) if the game has already ended, the value of the node is the game result
-        m = get_valid_moves(self.s)
-        if len(m) == 0:
-            self.v = check_game(self.s)
+        e = check_game(self.s)
+        if e in [1, 0, -1]:
+            self.v = e
         else:
         # (2) if the game has not ended yet:
         #   (2.1)first compute values of all children nodes recursively by calling compute_v() in each child node
+            self.build_tree()
+            c_v = list()
             for child_node in self.c:
                 child_node.compute_v()
+                c_v.append(child_node.v)
         #   (2.2) now the values of all the children nodes are computed, let's compute the value of the current node:
         #       (2.2.1) if it is X player's turn, the value of the current node is the max of all children node's values 
         #       (2.2.2) if it is O player's turn, the value of the current node is the min of all children node's values
-        
+            if self.x == 1:
+                self.v = max(c_v)
+            elif self.x == -1:
+                self.v = min(c_v)
         #########################################
 
     ''' TEST: Now you can test the correctness of your code above by typing `nosetests -v test1.py:test_compute_v' in the terminal.  '''
@@ -797,53 +795,57 @@ class Node:
 # ----------------------------------------------
 # Let's first implement step (3): choose optimal next move
 def choose_optimal_move(n, x=1):
-    '''
+    """
         Assume we have a fully-grown search tree, and the values of all nodes are already computed.
 
         (3) Choose Next Move: the agent will choose the child node with the largest/smallest value as the next move.
-            if the MinMax player is the "X" player in the game, it will choose the largest value among children nodes. 
-            if the MinMax player is the "O" player in the game, it will choose the smallest value among children nodes. 
+            if the MinMax player is the "X" player in the game, it will choose the largest value among children nodes.
+            if the MinMax player is the "O" player in the game, it will choose the smallest value among children nodes.
 
-       Inputs:
+        Inputs:
             n: the current node of the search tree, assuming the values in all nodes are already computed.
             x: the role of the player, 1 if you are the "X" player in the game
-                    -1 if you are the "O" player in the game. 
-       Outputs:
-            r: the row number of the optimal next move, an integer scalar with value 0, 1, or 2. 
-            c: the column number of the optimal next move, an integer scalar with value 0, 1, or 2. 
+                    -1 if you are the "O" player in the game.
+        Outputs:
+            r: the row number of the optimal next move, an integer scalar with value 0, 1, or 2.
+            c: the column number of the optimal next move, an integer scalar with value 0, 1, or 2.
 
         For example, suppose we have the following search tree (X player's turn):
-                                |--> Child Node A 
-                                |    |1,-1, 1|(v=0)  
-                                |    |1, 0, 0|(m=(1,0))       
-                                |    |0, 0,-1|       
-                                |
-                                |--> Child Node B 
-                                |    |1,-1, 1|(v=0)  
-                                |    |0, 1, 0|(m=(1,1))       
-                                |    |0, 0,-1|       
-               (X's turn)       |
-              Current Node -->  |--> Child Node C 
-              |1,-1, 1|(v=1)    |    |1,-1, 1|(v=-1) 
-              |0, 0, 0|         |    |0, 0, 1|(m=(1,2))       
-              |0, 0,-1|         |    |0, 0,-1|        
-                                |
-                                |--> Child Node D 
-                                |    |1,-1, 1|(v=1)  
-                                |    |0, 0, 0|(m=(2,0))         
-                                |    |1, 0,-1|       
-                                |
-                                |--> Child Node E 
-                                     |1,-1, 1|(v=0)  
-                                     |0, 0, 0|(m=(2,1))         
-                                     |0, 1,-1|       
-        The optimal next move will be child node with the largest value (Child Node D). 
+                            |--> Child Node A
+                            |    |1,-1, 1|(v=0)
+                            |    |1, 0, 0|(m=(1,0))
+                            |    |0, 0,-1|
+                            |
+                            |--> Child Node B
+                            |    |1,-1, 1|(v=0)
+                            |    |0, 1, 0|(m=(1,1))
+                            |    |0, 0,-1|
+            (X's turn)      |
+            Current Node -->|--> Child Node C
+            |1,-1, 1|(v=1)  |    |1,-1, 1|(v=-1)
+            |0, 0, 0|       |    |0, 0, 1|(m=(1,2))
+            |0, 0,-1|       |    |0, 0,-1|
+                            |
+                            |--> Child Node D
+                            |    |1,-1, 1|(v=1)
+                            |    |0, 0, 0|(m=(2,0))
+                            |    |1, 0,-1|
+                            |
+                            |--> Child Node E
+                                 |1,-1, 1|(v=0)
+                                 |0, 0, 0|(m=(2,1))
+                                 |0, 1,-1|
+        The optimal next move will be child node with the largest value (Child Node D).
         So in this example, the next move should be (r=2, c=0)
         Hint: you could solve this problem using 5 lines of code.
-    '''
+    """
     #########################################
-    ## INSERT YOUR CODE HERE
-
+    # INSERT YOUR CODE HERE
+    m_v = -2
+    for child_node in n.c:
+        if child_node.v * x > m_v:
+            r, c = child_node.m
+            m_v = child_node.v * x
     #########################################
     return r, c
 
@@ -852,41 +854,42 @@ def choose_optimal_move(n, x=1):
 
 # -------------------------------------------------------
 class PlayerMiniMax:
-    '''
-        Minimax player, who choose optimal moves by searching the tree with min-max.  
-    '''
+    """
+        Minimax player, who choose optimal moves by searching the tree with min-max.
+    """
 
     # ----------------------------------------------
     def play(self, s, x=1):
-        '''
-            The action function of the minimax player, which chooses next move in the game.  
+        """
+            The action function of the minimax player, which chooses next move in the game.
             The goal of this agent is to find the optimal (best) move for the current game state.
             (1) Build Tree: we will first build a fully-grown search tree, where the root of the tree is the current game state.
             (2) Compute Node Values: Then we compute the value of each node recursively using MinMax algorithm.
             (3) Choose Next Move: the agent will choose the child node with the largest/smallest value as the next move.
-                    if the MinMax player is the "X" player in the game, it will choose the largest value among children nodes. 
-                    if the MinMax player is the "O" player in the game, it will choose the smallest value among children nodes. 
-           Inputs:
-                s: the current state of the game, an integer matrix of shape 3 by 3. 
+                if the MinMax player is the "X" player in the game, it will choose the largest value among children nodes.
+                if the MinMax player is the "O" player in the game, it will choose the smallest value among children nodes.
+            Inputs:
+                s: the current state of the game, an integer matrix of shape 3 by 3.
                     s[i,j] = 0 denotes that the i-th row and j-th column is empty
-                    s[i,j] = 1 denotes that the i-th row and j-th column is taken by "X". 
+                    s[i,j] = 1 denotes that the i-th row and j-th column is taken by "X".
                     s[i,j] = -1 denotes that the i-th row and j-th column is taken by the "O".
                 x: the role of the player, 1 if you are the "X" player in the game
-                    -1 if you are the "O" player in the game. 
-           Outputs:
-                r: the row number of the next move, an integer scalar with value 0, 1, or 2. 
-                c: the column number of the next move, an integer scalar with value 0, 1, or 2. 
-          Hint: you could solve this problem using 4 lines of code.
-        '''
+                    -1 if you are the "O" player in the game.
+            Outputs:
+                 r: the row number of the next move, an integer scalar with value 0, 1, or 2.
+                 c: the column number of the next move, an integer scalar with value 0, 1, or 2.
+            Hint: you could solve this problem using 4 lines of code.
+        """
         #########################################
-        ## INSERT YOUR CODE HERE
+        # INSERT YOUR CODE HERE
 
         # (1) build a search tree with the current state as the root node
-
+        root_node = Node(s, x=x)
         # (2) compute values of all tree nodes
-
+        root_node.build_tree()
+        root_node.compute_v()
         # (3) choose the optimal next move
-
+        r, c = choose_optimal_move(root_node, x)
         #########################################
         return r, c
 
