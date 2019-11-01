@@ -36,8 +36,8 @@ class MCNode(Node):
                 ----------------------------------------------
         --------------------------------------------
     """
-    def __init__(self,s,x=1, p=None,c=None,m=None):
-        super(MCNode, self).__init__(s,x,p=p,c=c,m=m,v=0)
+    def __init__(self, s, x=1, p=None, c=None, m=None):
+        super(MCNode, self).__init__(s, x, p=p, c=c, m=m, v=0)
         self.N = 0  # number of times being selected in the simulation
 
 
@@ -650,8 +650,8 @@ def build_tree(r, n_iter=100):
         #                    and then select one of L's children nodes (C) as the leaf node
         C = L
         if check_game(L.s) is None:
-            expand(L)
-            C = select_a_child(L)
+            C = expand(L)
+            # C = select_a_child(L)
         # Step 3: simulation: sample a game result from the selected leaf node:
         #               the selected node is node C (if L is not a terminal node)
         #                                 or node L (if L is a terminal node, game ended)
