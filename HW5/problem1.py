@@ -763,7 +763,7 @@ class Node:
         else:
         # (2) if the game has not ended yet:
         #   (2.1)first compute values of all children nodes recursively by calling compute_v() in each child node
-            self.build_tree()
+        #     self.build_tree()
             c_v = list()
             for child_node in self.c:
                 child_node.compute_v()
