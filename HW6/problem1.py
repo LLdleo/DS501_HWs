@@ -41,47 +41,44 @@ import numpy as np
             n_epoch: the number of passes to go through the training dataset in the training process, an integer scalar.
 '''
 
-#-----------------------------------------------------------------
-# Forward Pass 
-#-----------------------------------------------------------------
+# -----------------------------------------------------------------
+# Forward Pass
+# -----------------------------------------------------------------
 
-#--------------------------
-def compute_z(x,w,b):
-    '''
+# --------------------------
+
+
+def compute_z(x, w, b):
+    """
         Compute the linear logit value of a data instance. z = <w, x> + b
         Here <w, x> represents the dot product of the two vectors.
         Input:
-            x: the feature vector of a data instance, a float numpy matrix of shape p by 1. 
-            w: the weights parameter of the logistic model, a float numpy matrix of shape p by 1. 
+            x: the feature vector of a data instance, a float numpy matrix of shape p by 1.
+            w: the weights parameter of the logistic model, a float numpy matrix of shape p by 1.
             b: the bias value of the logistic model, a float scalar.
         Output:
             z: the logit value of the instance, a float scalar
         Hint: you could solve this problem using 1 line of code. Though using more lines of code is also okay.
-    '''
+    """
     #########################################
-    ## INSERT YOUR CODE HERE
-
-
-
+    # INSERT YOUR CODE HERE
+    z = np.dot(w, x) + b
     #########################################
     return z 
 
-#--------------------------
+# --------------------------
+
+
 def compute_a(z):
-    '''
+    """
         Compute the sigmoid activation.
         Input:
             z: the logit value of logistic regression, a float scalar.
         Output:
             a: the activation, a float scalar
-    '''
+    """
     #########################################
-    ## INSERT YOUR CODE HERE
-
-
-
-
-
+    # INSERT YOUR CODE HERE
 
     #########################################
     return a

@@ -25,21 +25,21 @@ def test_compute_z():
     b = 0.2
 
     z = compute_z(x,w,b)
-    assert np.allclose(z, -0.5, atol = 1e-3) 
+    assert np.allclose(z, -0.5, atol=1e-3)
 
     w = np.mat('-0.5; 0.6')
     z = compute_z(x,w,b)
-    assert np.allclose(z, .9, atol = 1e-3) 
+    assert np.allclose(z, .9, atol=1e-3)
 
     w = np.mat('0.5;-0.6')
     x = np.mat(' 2.; 5. ')
     z = compute_z(x,w,b)
 
-    assert np.allclose(z, -1.8, atol = 1e-3) 
+    assert np.allclose(z, -1.8, atol=1e-3)
 
     b = 0.5
     z = compute_z(x,w,b)
-    assert np.allclose(z, -1.5, atol = 1e-3) 
+    assert np.allclose(z, -1.5, atol=1e-3)
 
 
 #-------------------------------------------------------------------------
