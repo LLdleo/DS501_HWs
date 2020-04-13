@@ -1,3 +1,3 @@
-# DS501
-DS501 Introduction to Data Science HWs  
-All the homeworks
+# Introduction to Data Science
+Homeworks for Introduction to Data Science  
+Used Numpy to Implement all the algorithms and tasks.
